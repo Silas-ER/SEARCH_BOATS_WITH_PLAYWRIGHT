@@ -10,8 +10,8 @@ from googleapiclient.errors import HttpError
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # The ID and range of a sample spreadsheet.
-SAMPLE_SPREADSHEET_ID = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
-SAMPLE_RANGE_NAME = "Class Data!A2:E"
+SAMPLE_SPREADSHEET_ID = "1HlZCxbtphqKe8E3sQz6hVlptkKGiv3j3vDS7DM9OikA"
+SAMPLE_RANGE_NAME = "dados!A1:D1"
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
       creds.refresh(Request())
     else:
       flow = InstalledAppFlow.from_client_secrets_file(
-          "credentials.json", SCOPES
+          "client_secret.json", SCOPES
       )
       creds = flow.run_local_server(port=0)
     # Save the credentials for the next run
@@ -52,14 +52,11 @@ def main():
     if not values:
       print("No data found.")
       return
-
-    print("Name, Major:")
+    
     for row in values:
-      # Print columns A and E, which correspond to indices 0 and 4.
-      print(f"{row[0]}, {row[4]}")
+      print(f"{row[0]}, {row[1]}, {row[2]}, {row[3]}")
   except HttpError as err:
     print(err)
-
 
 if __name__ == "__main__":
   main()
