@@ -1,2 +1,0 @@
-usuario: tic1@produmar.ind.br
-senha: password
