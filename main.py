@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 import datetime
 import time
-from escrita_dados import exportar
+from api_login_export import write_sheet
 from read_data import read_credentials_from_file, read_dados_boats
 
 #COLETA DE DATA ATUAL 
@@ -38,7 +38,7 @@ with sync_playwright() as p:
     time.sleep(15)
 
     #frame do login 
-    page.wait_for_selector('iframe[id="loginIframe"]')
+    page.wait_for_selector('iframe[id="loginIframe"]', timeout=20000)
     frame_login = page.frame('loginIframe')
     
     campo_email = frame_login.locator('input.ivu-input.ivu-input-large[placeholder="Phone Number/Email"]')
@@ -60,27 +60,31 @@ with sync_playwright() as p:
     #frame do mapa
     frame_map = page.frame('iframeMap')
 
-    time.sleep(35)
 
-    for dados in dados_boats: 
-        #Interact with the frame
-        search_camp = frame_map.locator('.ship_search_input') 
-        search_camp.fill(dados['mmsi'])
+    for index, dados in enumerate(dados_boats):
+        try:
+            # Interact with the frame
+            search_camp = frame_map.wait_for_selector('.ship_search_input', timeout=20000)
+            if search_camp:
+                search_camp.fill(dados['mmsi'])
 
-        time.sleep(50)
+            search_result = frame_map.wait_for_selector('span.ship_name', timeout=20000)
+            if search_result:
+                search_result.click()
 
-        search_result = frame_map.locator('span.ship_name')
-        search_result.click()
+                # Aguarde a visibilidade dos elementos no pop-up
+                frame_map.wait_for_selector('div.poupWindowDetail span[name="shipposition"]', timeout=20000)
+                
+                data_latitude = frame_map.locator('div.poupWindowDetail span[name="shipposition"]').inner_text()
+                data_longitude = frame_map.locator('div.poupWindowDetail span[name="shiplonti"]').inner_text()
 
-        data_latitude = frame_map.locator('div.poupWindowDetail span[name="shipposition"]').inner_text()
-        data_longitude = frame_map.locator('div.poupWindowDetail span[name="shiplonti"]').inner_text()
+                dados_exportar.append([data_formatada, dados['name'], data_latitude, data_longitude])
 
-        dados_exportar.append({'data': data_formatada, 'name': dados['name'], 'latitude': data_latitude, 'longitude': data_longitude})
+                print(f'{dados["name"]} - Índice {index} ok!')
 
-        print('{} ok!'.format(dados['name']))
-
-        time.sleep(50)
+        except Exception as e:
+            print(f"Erro durante a execução: {str(e)}")
 
     browser.close()
 
-exportar(dados_exportar)
+write_sheet(dados_exportar)
