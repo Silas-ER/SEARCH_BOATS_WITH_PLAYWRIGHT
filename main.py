@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 import datetime
 import time
-from api_login_export import write_sheet
+from api_sheet_export import write_sheet
 from read_data import read_credentials_from_file, read_dados_boats
 
 #COLETA DE DATA ATUAL 
