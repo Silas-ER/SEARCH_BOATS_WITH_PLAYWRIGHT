@@ -2,7 +2,7 @@ from playwright.sync_api import sync_playwright
 import datetime
 import time
 from api_sheet_export import write_sheet
-from read_data import read_credentials_from_file, read_dados_boats
+from read_data import read_credentials_from_file, read_dados_boats, to_convert
 
 #COLETA DE DATA ATUAL 
 data_atual = datetime.datetime.now()
@@ -10,6 +10,7 @@ data_formatada = data_atual.strftime("%d/%m/%Y")
 
 #LISTA DE DADOS DA EXPORTAÇÃO 
 dados_exportar = []
+data_convert = []
 
 #LEITURA DE CREDENCIAIS E DADOS DO BARCO
 try:
@@ -86,5 +87,16 @@ with sync_playwright() as p:
             print(f"Erro durante a execução: {str(e)}")
 
     browser.close()
+
+for data in dados_exportar:
+
+    date = data[0]
+    name = data[1]
+    lat = to_convert(data[2])
+    long = to_convert(data[3])
+    data_convert.append({'name': name, 'lat': lat, 'long': long})
+
+for data in data_convert:
+    print(data)
 
 write_sheet(dados_exportar)
