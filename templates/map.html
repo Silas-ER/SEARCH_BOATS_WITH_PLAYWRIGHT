@@ -30,8 +30,8 @@
 
         // Adicionando marcador com um pop-up
         {% for data in dados_exportar %}
-            var marker = L.marker([-15.7801, -47.9292]).addTo(map);
-            marker.bindPopup("<b>Brasília</b><br>Capital do Brasil.").openPopup(); // Popup ao clicar no marcador
+            var marker = L.marker([{{ data.lat }}, {{ data.long }}]).addTo(map);
+            marker.bindPopup("{{ data.name }}").openPopup();
         {% endfor %}
     </script>
 </body>
