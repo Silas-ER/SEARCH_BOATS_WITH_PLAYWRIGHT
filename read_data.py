@@ -1,3 +1,5 @@
+import re
+
 def read_credentials_from_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -19,3 +21,21 @@ def read_dados_boats(file_path):
                 dados_boats.append({'name': name, 'mmsi': mmsi})  # Adiciona os dados à lista
     return dados_boats
 
+def to_convert(dms_str):
+    # Usando expressões regulares para extrair os valores numéricos e a direção
+    match = re.match(r'(\d+)°(\d+\.\d+)′\s*([NSEW])', dms_str)
+    if match:
+        degrees = float(match.group(1))
+        minutes = float(match.group(2))
+        direction = match.group(3)
+        
+        # Convertendo os graus e minutos para decimal
+        decimal_degrees = degrees + (minutes / 60.0)
+        
+        # Verificando a direção (N, S, E, W) e aplicando o sinal correto para latitude ou longitude
+        if direction == 'S' or direction == 'W':
+            decimal_degrees = -decimal_degrees
+        
+        return decimal_degrees
+    else:
+        return None
