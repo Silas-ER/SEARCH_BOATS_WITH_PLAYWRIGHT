@@ -16,14 +16,14 @@ def data_capture():
 
     #LEITURA DE CREDENCIAIS E DADOS DO BARCO
     try:
-        username, password = read_credentials_from_file('research_base/credenciais.txt')
+        username, password = read_credentials_from_file('credenciais.txt')
         
     except Exception as e:
         print(f"Erro ao ler as credenciais: {str(e)}")
         exit(1)
 
     try:
-        dados_boats = read_dados_boats('research_base/dados_consulta.txt')
+        dados_boats = read_dados_boats('dados_consulta.txt')
 
     except Exception as e:
         print(f"Erro ao ler os dados dos barcos: {str(e)}")
