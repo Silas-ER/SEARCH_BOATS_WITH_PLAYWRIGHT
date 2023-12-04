@@ -1,0 +1,8 @@
+#remoção de tokens de acesso
+*.json
+
+#remoção de arquivos sensiveis
+credentials.txt
+data_smtp.txt
+addressees.txt
+

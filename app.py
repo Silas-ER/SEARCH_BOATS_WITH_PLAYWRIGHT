@@ -9,15 +9,17 @@ date = datetime.date.today()
 date_format = date.strftime("%d_%m_%y")
 list_of_pins = data_capture()
 
-archive_name = f'templates/pin_map_{date_format}.html'
+archive_name = f'src/maps/pin_map_{date_format}.html'
 
 mapa = create_map(list_of_pins)
-mapa.save(f'templates/pin_map_{date_format}.html')
+mapa.save(archive_name)
 
 attach_and_send(date_format)
 
+"""
 if os.path.exists(archive_name):
     os.remove(archive_name)
     print(f'Arquivo {archive_name} foi removido com sucesso.')
 else:
     print(f'O arquivo {archive_name} não existe.')
+"""

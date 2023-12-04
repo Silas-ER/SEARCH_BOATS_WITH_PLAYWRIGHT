@@ -1,8 +1,8 @@
 from playwright.sync_api import sync_playwright
 import datetime
 import time
-from functions.api_sheet_export import write_sheet
-from functions.read_data import read_credentials_from_file, read_dados_boats, to_convert
+from functions.api_sheet_export import append_to_sheet
+from functions.read_data import read_credentials, read_dados_boats, to_convert
 
 
 #COLETA DE DATA ATUAL 
@@ -16,14 +16,14 @@ def data_capture():
 
     #LEITURA DE CREDENCIAIS E DADOS DO BARCO
     try:
-        username, password = read_credentials_from_file('credenciais.txt')
+        username, password = read_credentials('credentials.txt')
         
     except Exception as e:
         print(f"Erro ao ler as credenciais: {str(e)}")
         exit(1)
 
     try:
-        dados_boats = read_dados_boats('dados_consulta.txt')
+        dados_boats = read_dados_boats('data_query.txt')
 
     except Exception as e:
         print(f"Erro ao ler os dados dos barcos: {str(e)}")
@@ -98,6 +98,6 @@ def data_capture():
         long = to_convert(data[3])
         data_convert.append({'name': name, 'lat': lat, 'long': long})
 
-    write_sheet(dados_exportar)
+    append_to_sheet(dados_exportar)
 
     return data_convert

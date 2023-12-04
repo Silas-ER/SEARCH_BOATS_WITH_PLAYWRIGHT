@@ -10,10 +10,10 @@ SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = "1HlZCxbtphqKe8E3sQz6hVlptkKGiv3j3vDS7DM9OikA"
-SAMPLE_RANGE_NAME = "dados!A2:D25"
+SAMPLE_RANGE_NAME = "dados"
 
 #values.get() ler -> values.update() escrever
-def write_sheet(list_of_data):
+def append_to_sheet(list_of_data):
     creds = None
 
     if os.path.exists("token.json"):
@@ -35,17 +35,17 @@ def write_sheet(list_of_data):
         service = build("sheets", "v4", credentials=creds)
         sheet = service.spreadsheets()
 
-        # Prepare the values to be updated
-        values_to_export = list_of_data  # assuming list_of_data is already in the correct format
+        # Prepare the values to be appended
+        values_to_append = list_of_data  # assuming list_of_data is already in the correct format
 
         # Add more validation or manipulation of data if needed
 
-        # Now, values_to_export is in the format expected by the API
-        body = {"values": values_to_export}
+        # Now, values_to_append is in the format expected by the API
+        body = {"values": values_to_append}
 
         result = (
             sheet.values()
-            .update(
+            .append(
                 spreadsheetId=SAMPLE_SPREADSHEET_ID,
                 range=SAMPLE_RANGE_NAME,
                 body=body,
@@ -54,7 +54,7 @@ def write_sheet(list_of_data):
             .execute()
         )
 
-        print("Updated values:", result)
+        print("Appended values:", result)
 
     except HttpError as err:
-        print("Error updating sheet:", err)
+        print("Error appending to sheet:", err)

@@ -1,6 +1,6 @@
 import re
 
-def read_credentials_from_file(file_path):
+def read_credentials(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
         if len(lines) < 2:
