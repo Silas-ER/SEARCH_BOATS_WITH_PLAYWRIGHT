@@ -16,14 +16,14 @@ def data_capture():
 
     #LEITURA DE CREDENCIAIS E DADOS DO BARCO
     try:
-        username, password = read_credentials('credentials.txt')
+        username, password = read_credentials('./src/research/credentials.txt')
         
     except Exception as e:
         print(f"Erro ao ler as credenciais: {str(e)}")
         exit(1)
 
     try:
-        dados_boats = read_dados_boats('data_query.txt')
+        dados_boats = read_dados_boats('./src/research/data_query.txt')
 
     except Exception as e:
         print(f"Erro ao ler os dados dos barcos: {str(e)}")
@@ -98,6 +98,6 @@ def data_capture():
         long = to_convert(data[3])
         data_convert.append({'name': name, 'lat': lat, 'long': long})
 
-    append_to_sheet(dados_exportar)
+    #append_to_sheet(dados_exportar)
 
     return data_convert

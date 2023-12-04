@@ -14,7 +14,7 @@ archive_name = f'src/maps/pin_map_{date_format}.html'
 mapa = create_map(list_of_pins)
 mapa.save(archive_name)
 
-attach_and_send(date_format)
+#attach_and_send(date_format)
 
 """
 if os.path.exists(archive_name):

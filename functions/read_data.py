@@ -21,6 +21,15 @@ def read_dados_boats(file_path):
                 dados_boats.append({'name': name, 'mmsi': mmsi})  # Adiciona os dados à lista
     return dados_boats
 
+def read_smtp(file_path):
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+        server = lines[0].strip().split(':')[-1].strip()
+        port = lines[1].strip().split(':')[-1].strip()
+        user = lines[2].strip().split(':')[-1].strip()
+        password = lines[3].strip().split(':')[-1].strip()
+        return server, port, user, password
+
 def to_convert(dms_str):
     # Usando expressões regulares para extrair os valores numéricos e a direção
     match = re.match(r'(\d+)°(\d+\.\d+)′\s*([NSEW])', dms_str)
