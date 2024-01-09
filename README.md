@@ -20,7 +20,7 @@
             <li>Lista dos dados dos barcos (data_query.txt)</li>
             <li>Dados de login do email (data_smtp.txt)</li>
             <li>E-mails de usuários aos quais os arquivos serão encaminhados (adressees.txt)</li>
-            <li></li>
+            <li>Credencial para o (client_secret.json ou token.json)</li>
         </ul> 
 </p>
 Web Scraping
